@@ -1,7 +1,10 @@
 package io.employees.HomeWork;
 
+import java.util.List;
+
 public interface EmployeeService {
-    boolean addNewEmployee(String firstName, String lastName) throws EmployeeAlreadyAddedException, EmployeeStorageIsFullException;
-    boolean removeEmployee(String firstName, String lastName) throws EmployeeNotFoundException;
-    boolean findEmployee(String firstName, String lastName) throws EmployeeNotFoundException;
+    Employee addNewEmployee(String firstName, String lastName);
+    Employee removeEmployee(String firstName, String lastName);
+    Employee findEmployee(String firstName, String lastName);
+    List<Employee> printAllEmployees();
 }

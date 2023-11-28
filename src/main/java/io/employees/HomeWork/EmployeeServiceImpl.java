@@ -1,45 +1,48 @@
 package io.employees.HomeWork;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.lang.String;
-@Service
-public class EmployeeServiceImpl extends Employee implements EmployeeService {
-    Employee e = new Employee(getFirstName(),getLastName());
-    private final List<Employee> employees = new ArrayList<>(200);
 
-    public EmployeeServiceImpl(String firstName, String lastName) {
-        super(firstName, lastName);
-    }
-    @Bean
-    public boolean addNewEmployee(String firstName, String lastName) {
-        if (employees.equals(e)) {
+@Service
+public class EmployeeServiceImpl implements EmployeeService {
+    private final List<Employee> employees = new ArrayList<>();
+    private final boolean maxNumOfEmployeesIsNotReached = employees.size() <= 100;
+
+    public Employee addNewEmployee(String firstName, String lastName) {
+        Employee e = new Employee(firstName, lastName);
+        if (employees.contains(e)) {
             throw new EmployeeAlreadyAddedException("Сотрудник уже добавлен в список");
         }
-        if (employees.size() <= 200) {
-            return employees.add(e);
+        if (maxNumOfEmployeesIsNotReached) {
+            employees.add(e);
+            return e;
         } else {
             throw new EmployeeStorageIsFullException("Превышено максимальное количество сотрудников");
         }
     }
-    @Bean
-    public boolean removeEmployee(String firstName, String lastName) {
+
+    public Employee removeEmployee(String firstName, String lastName) {
+        Employee e = new Employee(firstName, lastName);
         if (employees.contains(e)) {
-            return employees.remove(e);
+            employees.remove(e);
+            return e;
         } else {
             throw new EmployeeNotFoundException("Сотрудник не найден");
         }
     }
-    @Bean
-    public boolean findEmployee(String firstName, String lastName) {
+
+    public Employee findEmployee(String firstName, String lastName) {
+        Employee e = new Employee(firstName, lastName);
         if (employees.contains(e)){
-            return true;
+            return e;
         } else {
             throw new EmployeeNotFoundException("Сотрудник не найден");
         }
+    }
 
+    public List<Employee> printAllEmployees() {
+            return employees;
     }
 }
