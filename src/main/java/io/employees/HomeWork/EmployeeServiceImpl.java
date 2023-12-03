@@ -8,14 +8,14 @@ import java.util.List;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final List<Employee> employees = new ArrayList<>();
-    private final boolean maxNumOfEmployeesIsNotReached = employees.size() <= 100;
+    private static final int MAX_SIZE = 100;
 
     public Employee addNewEmployee(String firstName, String lastName) {
         Employee e = new Employee(firstName, lastName);
         if (employees.contains(e)) {
             throw new EmployeeAlreadyAddedException("Сотрудник уже добавлен в список");
         }
-        if (maxNumOfEmployeesIsNotReached) {
+        if (employees.size() <= MAX_SIZE) {
             employees.add(e);
             return e;
         } else {
